@@ -5,18 +5,18 @@ const API_URL = `https://codaisseur-coders-network.herokuapp.com`;
 
 export function startLoadingPost() {
   return {
-    type: "startLoadingPost",
+    type: "postPage/startLoadingPost",
   };
 }
 
-export function postFullyFetched(morePosts) {
+export function postFullyFetched(data) {
   return {
-    type: "postFullyFetched",
-    payload: morePosts,
+    type: "postPage/postFullyFetched",
+    payload: data,
   };
 }
 
-export default function fetchPost(id) {
+export function fetchPost(id) {
   return async function thunk(dispatch, getState) {
     dispatch(startLoadingPost());
 

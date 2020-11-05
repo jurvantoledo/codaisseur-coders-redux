@@ -1,33 +1,66 @@
+// src/pages/PostPage.js
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import fetchPost from "../store/PostPage/actions";
-import selectFeedPosts from "../store/PostPage/selectors";
-import moment from "moment";
 import ReactMarkdown from "react-markdown";
+import moment from "moment";
 
+import { fetchPost } from "../store/PostPage/actions";
 import { selectPostAndComments } from "../store/PostPage/selectors";
 
-export default function PostPage() {
-  const { id } = useParams();
+export default function PagePage() {
   const dispatch = useDispatch();
-
-  const post = useSelector(selectFeedPosts);
-  console.log("?", post);
+  const { id } = useParams();
 
   useEffect(() => {
     dispatch(fetchPost(id));
   }, [dispatch, id]);
 
-  //const postData = useSelector(selectPostAndComments);
+  const postData = useSelector(selectPostAndComments);
 
   return (
     <div>
-      <p>
-        <p>{post.title}</p>
-        <ReactMarkdown source={post.content} />
-        <p>{moment(post.createdAt).format("DD-MM-YYYY")}</p>
-      </p>
+      {!postData ? (
+        <p>Loading...</p>
+      ) : (
+        <>
+          <h1>{postData.post.title}</h1>
+          <p>
+            By <strong>{postData.post.developer.name}</strong> &bull;{" "}
+            {moment(postData.post.createdAt).format("DD-MM-YYYY")} &bull;{" "}
+            {/* {post.post_likes.length} likes &bull;{" "} */}
+            <span>
+              {postData.post.tags.map((tag) => {
+                return (
+                  <React.Fragment key={tag.id}>
+                    <span className="Tag">{tag.tag}</span>{" "}
+                  </React.Fragment>
+                );
+              })}
+            </span>
+          </p>
+          <ReactMarkdown source={postData.post.content} />
+
+          <h2>Comments</h2>
+          {postData.comments.rows.length === 0 ? (
+            <p>
+              <em>No comments left behind yet :(</em>
+            </p>
+          ) : (
+            postData.comments.rows.map((comment) => {
+              return (
+                <div key={comment.id}>
+                  <p>{comment.text}</p>
+                  <p className="meta">
+                    By <strong>{comment.developer.name}</strong> &bull;{" "}
+                    {moment(comment.createdAt).format("DD-MM-YYYY")}{" "}
+                  </p>
+                </div>
+              );
+            })
+          )}
+        </>
+      )}
     </div>
   );
 }

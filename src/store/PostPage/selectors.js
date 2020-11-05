@@ -1,5 +1,5 @@
-export default function selectFeedPosts(reduxState) {
-  console.log(reduxState.PostPage);
+export default function selectPosts(reduxState) {
+  console.log(reduxState.PostPage.post);
   return reduxState.PostPage.post;
 }
 
