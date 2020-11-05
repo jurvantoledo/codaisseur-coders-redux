@@ -7,3 +7,12 @@ export function selectComments(reduxState) {
   console.log("COMMENTS", reduxState.PostPage.comments);
   return reduxState;
 }
+
+export function selectPostAndComments(reduxState) {
+  return reduxState.postPage.loading
+    ? null
+    : {
+        post: reduxState.postPage.post,
+        comments: reduxState.postPage.comments,
+      };
+}

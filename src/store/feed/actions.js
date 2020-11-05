@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export function startLoading() {
   return {
     type: "feed/startLoading",
@@ -10,3 +12,5 @@ export function postsFetched(morePosts) {
     payload: morePosts,
   };
 }
+
+export async function fetchNext5Posts(dispatch, getState) {}

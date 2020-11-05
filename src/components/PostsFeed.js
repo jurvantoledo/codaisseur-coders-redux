@@ -4,8 +4,13 @@ import React, { useEffect } from "react";
 import axios from "axios";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
-import { startLoading, postsFetched } from "../store/feed/actions";
+import {
+  startLoading,
+  postsFetched,
+  fetchNext5Posts,
+} from "../store/feed/actions";
 import { selectFeedLoading, selectFeedPosts } from "../store/feed/selector";
+import { Link } from "react-router-dom";
 
 const API_URL = `https://codaisseur-coders-network.herokuapp.com`;
 
@@ -28,8 +33,8 @@ export default function PostsFeed() {
   }
 
   useEffect(() => {
-    fetchNext5Posts();
-  }, []);
+    dispatch(fetchNext5Posts);
+  }, [dispatch]);
 
   return (
     <div className="PostsFeed">
@@ -37,7 +42,9 @@ export default function PostsFeed() {
       {posts.map((post) => {
         return (
           <div key={post.id}>
-            <h3>{post.title}</h3>
+            <h3>
+              <Link to={`/post/${post.id}`}>{post.title}</Link>
+            </h3>
             <p>{moment(post.createdAt).format("DD-MM-YYYY")}</p>
             {post.tags.map((tag) => {
               return <p key={tag.id}>{tag.tag}</p>;
