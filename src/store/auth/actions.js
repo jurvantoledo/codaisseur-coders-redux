@@ -2,31 +2,40 @@ import axios from "axios";
 
 const API_URL = `https://codaisseur-coders-network.herokuapp.com`;
 
-// A thunk creator
-export default function login(email, password) {
-  // Return the thunk itself, i.e. a function
-  return async function thunk(dispatch, getState) {
-    const response = await axios.post(`${API_URL}/login`, {
-      email: "kelley@codaisseur.com",
-      password: "abcd",
+const saveUserData = (token, me) => {
+  return {
+    type: "LOGIN",
+    payload: { token, me },
+  };
+};
+
+const userLoggedIn = async (token) => {
+  try {
+    const response = await axios.get(`${API_URL}/me`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
+    console.log(response);
+    return response.data;
+  } catch (e) {
+    console.log(e);
+  }
+};
 
-    const { jwt } = response.data;
-
-    console.log(
-      "TODO: make login request, get an access token",
+export const login = (email, password) => async (dispatch, getState) => {
+  try {
+    const response = await axios.post(`${API_URL}/login`, {
       email,
       password,
-      jwt
-    );
-  };
-}
+    });
+    const { jwt } = response.data;
+    console.log(response);
 
-export default function userLoggedIn(token, profile) {
-  return async function thunk(dispatch, getState) {
-    await axios
-      .get("/me", { headers: { Authorization: "Bearer <yourJWTtoken>" } })
-      .then((data) => console.log("data", data))
-      .catch((err) => console.log("err", err));
-  };
-}
+    const me = await getState(jwt);
+
+    dispatch(saveUserData(jwt, me));
+  } catch (e) {
+    console.log("error", e);
+  }
+};

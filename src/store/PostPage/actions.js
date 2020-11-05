@@ -33,16 +33,3 @@ export function fetchPost(id) {
     );
   };
 }
-
-export async function signUp() {
-  await axios.post(`${API_URL}/post/4/comments`, {
-    name: "Jur",
-    email: "test@test.com",
-    password: "abcd",
-    comment: "Horrible content, badly written!",
-
-    headers: {
-      Authorization: "Bearer MY_ACCESS_TOKEN",
-    },
-  });
-}
