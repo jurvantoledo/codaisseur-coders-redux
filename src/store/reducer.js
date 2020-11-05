@@ -2,12 +2,13 @@
 import { combineReducers } from "redux";
 import feedSliceReducer from "./feed/reducer";
 import postPageSliceReducer from "./PostPage/reducer";
-import authSliceReducer from "./auth/reducer";
+import authReducer from "./auth/reducer";
 
 const reducer = combineReducers({
   feed: feedSliceReducer,
   postPage: postPageSliceReducer,
-  auth: authSliceReducer,
+  auth: authReducer,
+  // etc.
 });
 
 export default reducer;

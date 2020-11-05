@@ -25,11 +25,11 @@ export default function PagePage() {
       ) : (
         <>
           <h1>{postData.post.title}</h1>
-          <p>
+          <p className="meta">
             By <strong>{postData.post.developer.name}</strong> &bull;{" "}
             {moment(postData.post.createdAt).format("DD-MM-YYYY")} &bull;{" "}
             {/* {post.post_likes.length} likes &bull;{" "} */}
-            <span>
+            <span className="tags">
               {postData.post.tags.map((tag) => {
                 return (
                   <React.Fragment key={tag.id}>

@@ -1,14 +1,15 @@
 const initialState = {
   me: null, // the logged-in user
-  accessToken: null,
+  accessToken: null, //jwt -> token
 };
 
-export default function authSliceReducer(state = initialState, action) {
+export default function authReducer(state = initialState, action) {
   switch (action.type) {
-    case "LOGIN":
+    case "SAVE_USER_DATA":
+      const { token, userProfile: me } = action.payload;
       return {
-        accessToken: action.payload.token,
-        me: action.payload,
+        accessToken: token,
+        me,
       };
     default:
       return state;
