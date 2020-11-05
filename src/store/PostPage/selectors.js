@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export default function selectPosts(reduxState) {
   console.log(reduxState.PostPage.post);
   return reduxState.PostPage.post;
