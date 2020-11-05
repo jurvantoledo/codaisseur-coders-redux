@@ -1,5 +1,3 @@
-// src/store/postPage/reducer.js
-
 const initialState = {
   loading: true,
   post: null,
